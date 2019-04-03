@@ -20,7 +20,7 @@ const server = express();
 
 server.use("/images", express.static(path.join(__dirname, "images")));
 
-server.post("/", line.middleware(lineConfig), (req, res) => {
+server.post("/webhook", line.middleware(lineConfig), (req, res) => {
   // LINEのサーバーに200を返す
   res.sendStatus(200);
 
