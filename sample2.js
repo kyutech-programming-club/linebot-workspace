@@ -9,10 +9,14 @@ const lineConfig = {
 const lineClient = new line.Client(lineConfig);
 
 function createReplyMessage(input) {
-  // 1. 固定メッセージを返す
+  // 2. オウム返しする
   return {
     type: "text",
-    text: "うっひゃうれしー！"
+    // `（バッククォート）で囲った中で${変数名}や${式}を書くと結果が展開される
+    // テンプレートリテラル（Template literal）という文法です
+    text: `${input}、と言いましたね？`
+    // 以下と同じです
+    // text: input + '、と言いましたね？'
   };
 }
 

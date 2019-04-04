@@ -9,11 +9,17 @@ const lineConfig = {
 const lineClient = new line.Client(lineConfig);
 
 function createReplyMessage(input) {
-  // 1. 固定メッセージを返す
+  // 3. 画像を返す
+
+  const appUrl = process.env.HEROKU_APP_URL;
   return {
-    type: "text",
-    text: "うっひゃうれしー！"
+    type: "image",
+    previewImageUrl: `${appUrl}images/question.png`,
+    originalContentUrl: `${appUrl}images/answer.png`
   };
+
+  // メッセージオブジェクトに関する公式ドキュメント
+  // https://developers.line.me/ja/reference/messaging-api/#message-objects
 }
 
 const server = express();
