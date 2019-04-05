@@ -13,18 +13,21 @@ function createReplyMessage(input) {
   const messages = [];
   let text = "";
  
-  function Message(text) {
-    this.type = "text";
-    this.text = text;
+  function message(str) {
+    return {
+      type: "text",
+      text: str
+    }
   }
+
   if (hands.indexOf(input) === -1) {
     text = "グー・チョキ・パーのどれかを入力してね";
-    messages.push(new Message(text));
+    messages.push(message(text));
   } else {
     let user_hand = hands.indexOf(input);
     let cpu_hand = Math.floor(hands.length * Math.random());
     text = hands[cpu_hand];
-    messages.push(new Message(text));
+    messages.push(message(text));
     let judge_text = "";
     let judge = (user_hand - cpu_hand + 3) % 3; //じゃんけんの判定
     if (judge === 0){                           //あいこ
@@ -35,7 +38,7 @@ function createReplyMessage(input) {
       judge_text = `負けた(;_;)`;
     }
     text = judge_text;
-    messages.push(new Message(text));
+    messages.push(message(text));
   }
   
   return messages;
