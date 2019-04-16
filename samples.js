@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const line = require("@line/bot-sdk");
+const axios = require('axios');
 
 const lineConfig = {
   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
@@ -8,8 +9,8 @@ const lineConfig = {
 };
 const lineClient = new line.Client(lineConfig);
 
-function createReplyMessage(input, name) {
-  const message = name + "さん、ようこそ！\nLINEbotでできることの一部を紹介するサンプルです。\n「画像」、「位置情報」、「スタンプ」、「ボタン」と話しかけてみてください。";
+function createReplyMessage(input, profile) {
+  const message = profile.displayName + "さん、ようこそ！\nLINEbotでできることの一部を紹介するサンプルです。\n「画像」、「位置情報」、「スタンプ」、「ボタン」と話しかけてみてください。";
   const hands = ["グー", "チョキ", "パー"];
   const userHandNum = hands.indexOf(input);
  
@@ -82,6 +83,8 @@ function createReplyMessage(input, name) {
     messages.push(textMessage(judgeText));
 
     return messages;
+  } else if(input == '天気'){
+    getNodeVer(profile.userId);
   } else {
     return {
       type: "text",
@@ -102,10 +105,20 @@ server.post("/webhook", line.middleware(lineConfig), (req, res) => {
   for (const event of req.body.events) {
     lineClient.getProfile(event.source.userId)
     .then((profile) => {
-      const message = createReplyMessage(event.message.text, profile.displayName);
+      const message = createReplyMessage(event.message.text, profile);
       lineClient.replyMessage(event.replyToken, message);
     });
   }
 });
+
+const getNodeVer = async (userId) => {
+  const res = await axios.get('http://weather.livedoor.com/forecast/webservice/json/v1?city=400040');
+  const item = res.data;
+
+  await lineClient.pushMessage(userId, {
+      type: 'text',
+      text: item.description.text,
+  });
+}
 
 server.listen(process.env.PORT || 8080);
