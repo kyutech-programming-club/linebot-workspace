@@ -10,7 +10,7 @@ const lineConfig = {
 const lineClient = new line.Client(lineConfig);
 
 function createReplyMessage(input, profile) {
-  const message = profile.displayName + "さん、ようこそ！\nLINEbotでできることの一部を紹介するサンプルです。\n「画像」、「位置情報」、「スタンプ」、「ボタン」と話しかけてみてください。";
+  const message = profile.displayName + "さん、ようこそ！\nLINEbotでできることの一部を紹介するサンプルです。\n「画像」、「位置情報」、「スタンプ」、「ボタン」、「天気」と話しかけてみてください。";
   const hands = ["グー", "チョキ", "パー"];
   const userHandNum = hands.indexOf(input);
  
@@ -73,7 +73,7 @@ function createReplyMessage(input, profile) {
     messages.push(textMessage(botHand));
     let judgeText = "";
     const judge = (userHandNum - botHandNum + 3) % 3; //じゃんけんの判定
-    if (judge == 0){                           //あいこ
+    if (judge == 0) {                           //あいこ
       judgeText = `aiko`;
     } else if (judge == 1) {                   //botの勝ち
       judgeText = `わいの勝ちや！`;
@@ -83,7 +83,7 @@ function createReplyMessage(input, profile) {
     messages.push(textMessage(judgeText));
 
     return messages;
-  } else if(input == '天気'){
+  } else if (input == '天気') {
     getNodeVer(profile.userId);
   } else {
     return {
