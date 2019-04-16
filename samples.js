@@ -9,7 +9,7 @@ const lineConfig = {
 const lineClient = new line.Client(lineConfig);
 
 function createReplyMessage(input, name) {
-  const message = name + "さん、ようこそ！\nLINEbotでできることの一部を紹介するサンプルです。\n「画像」、「位置情報」、「スタンプ」、「ボタン」と話しかけてみてください。"
+  const message = name + "さん、ようこそ！\nLINEbotでできることの一部を紹介するサンプルです。\n「画像」、「位置情報」、「スタンプ」、「ボタン」と話しかけてみてください。";
   const hands = ["グー", "チョキ", "パー"];
   const userHandNum = hands.indexOf(input);
  
@@ -17,17 +17,17 @@ function createReplyMessage(input, name) {
     return {
       type: "text",
       text: str
-    }
+    };
   }
 
-  if (input == "画像"){
+  if (input == "画像") {
     const appUrl = process.env.HEROKU_APP_URL;
     return {
       type: "image",
       previewImageUrl: `${appUrl}images/question.png`,
       originalContentUrl: `${appUrl}images/answer.png`
     };
-  }else if (input == "スタンプ"){
+  } else if (input == "スタンプ") {
     return {
       type: "sticker",
       packageId: "1",
@@ -40,7 +40,7 @@ function createReplyMessage(input, name) {
       address: "〒804-8550 福岡県北九州市戸畑区仙水町１−１",
       latitude: 33.894936000000001,
       longitude: 130.83838929999999
-    }
+    };
   } else if (input == "ボタン") {
     return {
       type: "template",
@@ -64,7 +64,7 @@ function createReplyMessage(input, name) {
           }
         ]
       }
-    } 
+    };
   } else if (!(userHandNum == -1)) {
     const messages = [];
     const botHandNum = Math.floor(hands.length * Math.random());
@@ -72,11 +72,11 @@ function createReplyMessage(input, name) {
     messages.push(textMessage(botHand));
     let judgeText = "";
     const judge = (userHandNum - botHandNum + 3) % 3; //じゃんけんの判定
-    if (judge === 0){                           //あいこ
+    if (judge == 0){                           //あいこ
       judgeText = `aiko`;
-    } else if (judge === 1) {                   //botの勝ち
+    } else if (judge == 1) {                   //botの勝ち
       judgeText = `わいの勝ちや！`;
-    } else if (judge === 2) {                   //userの勝ち
+    } else if (judge == 2) {                   //userの勝ち
       judgeText = `負けた(;_;)`;
     }
     messages.push(textMessage(judgeText));
